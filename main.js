@@ -120,12 +120,12 @@ const createSphere = (radius, position) =>
 createSphere(0.5, { x: 0, y: 3, z: 0 })
 
 //GUI para añadir esfera
-const gui = new dat.GUI()
+/*const gui = new dat.GUI()
 const debugObject = {}
 debugObject.createSphere = () =>{
   createSphere(0.5, { x: 0, y: 3, z: 0 })
 }
-gui.add(debugObject, 'createSphere')
+gui.add(debugObject, 'createSphere')*/
 
 const sizes = { width: window.innerWidth, height: window.innerHeight }
 
