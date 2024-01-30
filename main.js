@@ -3,7 +3,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import './style.css';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import CANNON, { Plane } from 'cannon';
-import { GUI } from 'dat.gui';
 
 
 const scene = new THREE.Scene()
@@ -62,7 +61,7 @@ world.addBody(floorBody)
 floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(- 1, 0, 0), Math.PI * 0.5)
 
 //Esfera
-/*const SphereGeometry = new THREE.SphereGeometry( 0.1 ); 
+const SphereGeometry = new THREE.SphereGeometry( 0.1 ); 
 const SphereMaterial= new THREE.MeshBasicMaterial( { color: 0xffff00 } ); 
 const sphere = new THREE.Mesh( SphereGeometry, SphereMaterial);
 sphere.position.set(0,1,0) 
@@ -80,12 +79,12 @@ world.addBody(sphereBody)
 
 //APLICAR FUERZA 
 //Asi le aplicamos fuerza a un costado al principio 
-//sphereBody.applyLocalForce(new CANNON.Vec3(150, 0, 0), new CANNON.Vec3(0, 0, 0))*/
+//sphereBody.applyLocalForce(new CANNON.Vec3(150, 0, 0), new CANNON.Vec3(0, 0, 0))
 
 
 
 //Esfera creada con funcions
-const createSphere = (radius, position) =>
+/*const createSphere = (radius, position) =>
 {
     const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(radius, 20, 20),
@@ -117,15 +116,7 @@ const createSphere = (radius, position) =>
       body: body
     })
 }
-createSphere(0.5, { x: 0, y: 3, z: 0 })
-
-//GUI para añadir esfera
-/*const gui = new dat.GUI()
-const debugObject = {}
-debugObject.createSphere = () =>{
-  createSphere(0.5, { x: 0, y: 3, z: 0 })
-}
-gui.add(debugObject, 'createSphere')*/
+createSphere(0.5, { x: 0, y: 3, z: 0 })*/
 
 const sizes = { width: window.innerWidth, height: window.innerHeight }
 
@@ -162,10 +153,14 @@ const tick = () => {
   const deltaTime = elapsedTime - oldElapsedTime
   oldElapsedTime = elapsedTime
   //Para colocar la esfera visual en la posicion de la esfera fisica
-  //sphere.position.copy(sphereBody.position)
+  sphere.position.copy(sphereBody.position)
   
   //Aplicar fuerza a la esfera constantemente
-  //sphereBody.applyForce(new CANNON.Vec3(- 0.5, 0, 0), sphereBody.position)
+  sphereBody.applyForce(new CANNON.Vec3(- 0.5, 0, 0), sphereBody.position)
+
+  //Update renderer
+  renderer.render(scene, camera)
+  renderer.setAnimationLoop( tick);
 
   //Updatear array de objetos
   for(const object of objectsToUpdate) {
@@ -185,7 +180,6 @@ const tick = () => {
 function animate() {
   requestAnimationFrame(animate);
   tick();
-  renderer.render(scene, camera);
 }
 
 animate();
